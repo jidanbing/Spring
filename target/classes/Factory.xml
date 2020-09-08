@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--静态工厂创建实例-->
+    <bean id="peoper" class="Pojo.Peoper" factory-method="createBean" />
+
+
+    <!-- 使用实例工厂生成bean
+        1、声明工厂
+        2、声明所需要的bean，指向所用的工厂以及方法
+         -->
+    <bean id="instanceFactory" class="Pojo.instanceFactory"></bean>
+    <!-- factory-bean指向自定义的工厂bean    factory-method指向工厂bean的特定生成方法-->
+    <bean id="peoper2" class="Pojo.Peoper" factory-bean="instanceFactory" factory-method="instanceMethod"></bean>
+
+
+    <!-- 默认调用空参构造,作用域默认是单例模式 scope 默认singleton 单例   prototype 原型模式（多例模式）
+	init-method手动bean的初始化方法    destroy-method手动指定bean的销毁方法
+	-->
+    <bean class="Pojo.Peoper" id="peo" scope="prototype" init-method="init" destroy-method="destory"></bean>
+
+
+</beans>

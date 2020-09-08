@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 默认调用空参构造,作用域默认是单例模式 scope 默认singleton 单例   prototype 原型模式（多例模式）
+        init-method手动bean的初始化方法    destroy-method手动指定bean的销毁方法
+        -->
+<!--将指定类配置给spring，让spring创建对象实例-->
+    <bean id="student" class="Pojo.Student" />
+
+<!--    添加一个user实例-->
+    <bean id="user" class="Pojo.User">
+<!--        为user注入student属性，把student属性注入到 ，set注入-->
+        <property name="Student" ref="student"/>
+    </bean>
+
+    <bean id="user2" class="Pojo.User">
+<!--        构造注入 -->
+        <!-- constructor-arg  构造方法中的参数声明赋值     name 指向参数   value普通类型赋值  ref 引用类型赋值  -->
+        <constructor-arg name="name" value="z3"></constructor-arg>
+    </bean>
+
+
+<!--    利用c标签简写构造注入
+    <bean class="com.zut.DI.Peoper" id="peo3" c:name="rose" c:age="21"></bean>
+
+    利用p命名空间注入    set属性注入的简写
+    <bean class="com.zut.DI.Peoper" id="peo4" p:name="TOM" p:age="22"></bean>
+
+    利用spel表达式注入  属性不管是什么类型，都用value   固定格式 #{}
+    <bean class="com.zut.DI.Peoper" id="peo5">
+        <property name="name" value="#{'张三'}"></property>
+        <property name="age" value="#{18}"></property>
+    </bean>
+
+    复杂类型：数组。list、map的注入
+    <bean class="com.zut.DI.ComplexType" id="ct">
+        <property name="array">
+            数组的属性注入
+            <array>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </array>
+        </property>
+        list类型的属性注入
+        <property name="list">
+            <list>
+                <value>a</value>
+                <value>b</value>
+                <ref bean="car"/>
+            </list>
+        </property>
+        map类型的属性注入
+        <property name="map">
+            <map>
+                <entry key="name" value="JACK"/>
+                <entry key="age" value="22"/>
+            </map>
+        </property>
+    </bean>
+    -->
+
+</beans>

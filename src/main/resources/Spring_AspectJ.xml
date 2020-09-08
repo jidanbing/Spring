@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:contrext="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+<!--1.目标类-->
+    <bean id="userDao" class="AspectJ.UserDaoImpl"/>
+<!--2.切面-->
+    <bean id="myAspect" class="AspectJ.MyAspect"/>
+<!--3.aop编程-->
+    <aop:config>
+<!--配置切面        -->
+        <aop:aspect ref="myAspect">
+<!--            3.1配置切入点，通知最后增强哪些方法-->
+<!--          expression="execution(* com.atguigu.*.*(..)  第1*返回类型  第2*类名 第3*方法名 ..表示任意参数  -->
+            <aop:pointcut id="myPointCut" expression="execution(* AspectJ.*.*(..))"/>
+<!--            3.2关联通知Advice和切入点pointCut-->
+            <!--            3.2.1前置通知-->
+            <aop:before method="Before" pointcut-ref="myPointCut"/>
+            <!--3.2.2后置通知，在方法返回之后执行，就可以获得返回值
+            returning属性：用于设置后置通知的第二个参数的名称，类型是Object-->
+            <aop:after-returning method="AfterReturning" pointcut-ref="myPointCut" returning="returnVal"/>
+<!--            3.2.3环绕通知-->
+            <aop:around method="Around" pointcut-ref="myPointCut" />
+<!--            3.2.4异常通知：用于处理程序发生异常
+                如果程序没有异常，就不会执行增强
+                throwing属性：用于设置通知第二个参数的名称，类型是Throwable-->
+            <aop:after-throwing method="AfterThrowing" pointcut-ref="myPointCut" throwing="e"/>
+<!--            3.2.5最终通知：无论程序发生任何事情，都将执行-->
+            <aop:after method="After" pointcut-ref="myPointCut"/>
+        </aop:aspect>
+
+    </aop:config>
+
+
+<!--    开启扫描-->
+    <contrext:component-scan base-package="AspectJ"/>
+<!--    启动基于注解的声明是AspectJ支持-->
+    <aop:aspectj-autoproxy/>
+
+
+</beans>
